@@ -21,15 +21,7 @@ class Boid {
 
     void draw_boid(sf::RenderWindow& window);
 
-    void update_pos(int WIDTH, int HEIGHT);
-
-    void update_pos_avoidwalls(int WIDTH, int HEIGHT);
-
-    void separation(vector<Boid>& boids);
-
-    void alignment(vector<Boid>& boids);
-
-    void cohesion(vector<Boid>& boids);
+    void update_pos(int WIDTH, int HEIGHT, vector<Boid>& boids);
 
     void speed_cap();
 };

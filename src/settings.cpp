@@ -33,7 +33,7 @@ void init_settings()
 
     // Separation
     avoidfactor = 0.05;
-    protected_range = 30;
+    protected_range = 20;
 
     // Alignment and Cohesion
     visible_range = 64;

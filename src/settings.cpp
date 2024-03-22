@@ -33,7 +33,7 @@ void init_settings()
 
     // Separation
     avoidfactor = 0.05;
-    protected_range = 20;
+    protected_range = 30;
 
     // Alignment and Cohesion
     visible_range = 64;
@@ -42,7 +42,7 @@ void init_settings()
     matching_factor = 0.0075;
 
     // Cohesion
-    centering_factor = 0.001;
+    centering_factor = 0.002;
 
     // Other settings
     avoid_walls = false;

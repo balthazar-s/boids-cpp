@@ -113,7 +113,7 @@ void Boid::update_pos(int WIDTH, int HEIGHT, vector<Boid>& boids)
 
     // Update color
     /*
-    int color_level = round(neighboring_boids * 255 / 32);
+    int color_level = round(neighboring_boids * 255 / 16);
 
     if (color_level > 255)
     {

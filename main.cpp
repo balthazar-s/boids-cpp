@@ -6,6 +6,8 @@
 #include <random>
 using namespace std;
 
+void cleanupBoids(vector<vector<vector<Boid*>>>& boids);
+
 int main()
 {
     init_settings();
@@ -83,6 +85,7 @@ int main()
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
+                cleanupBoids(boids);
                 window.close();
         }
 
@@ -106,12 +109,34 @@ int main()
         window.clear();
 
         // Draw all Boids
-        for (int i = 0, len = boids.size(); i < len; i++) {
-            boids[i].draw_boid(window);
+        for (int i = 0, len = boids.size(); i < len; i++) 
+        {
+            for (int j = 0, len_2 = boids[i].size(); j < len_2; j++)
+            {
+                for (int k = 0, len_3 = boids[i][j].size(); k < 0; k++)
+                {
+                    boids[i][j][k]->draw_boid(window);
+                }
+            }
+            
         }
 
         window.display();
     }
 
     return 0;
+}
+
+// Function to clean up memory used by the boids vector
+void cleanupBoids(vector<vector<vector<Boid*>>>& boids) {
+    for (auto& gridRow : boids) {
+        for (auto& row : gridRow) {
+            for (auto boidPtr : row) {
+                delete boidPtr; // Free memory for each Boid object
+            }
+            row.clear(); // Clear the row vector
+        }
+        gridRow.clear(); // Clear the gridRow vector
+    }
+    boids.clear(); // Clear the boids vector
 }

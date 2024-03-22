@@ -72,14 +72,14 @@ void Boid::update_pos(int WIDTH, int HEIGHT, vector<vector<vector<Boid*>>>& boid
         return;
     }
 
-    int neighboring_boids = neighbors.size();
+    int neighbors_number = neighbors.size();
 
     // Separation
 
     float close_dx = 0.0;
     float close_dy = 0.0;
     
-    for (int i = 0; i < neighboring_boids; i++)
+    for (int i = 0; i < neighbors_number; i++)
     {   
         // Calculate quared distance between this boid and the current boid
         float dx = pos[0] - neighbors[i]->pos[0];
@@ -99,7 +99,6 @@ void Boid::update_pos(int WIDTH, int HEIGHT, vector<vector<vector<Boid*>>>& boid
     vel[0] += close_dx * avoidfactor;
     vel[1] += close_dy * avoidfactor;
     
-    
     // Alignment and Cohesion
 
     float xvel_avg = 0.0;
@@ -107,7 +106,7 @@ void Boid::update_pos(int WIDTH, int HEIGHT, vector<vector<vector<Boid*>>>& boid
     float xpos_avg = 0.0;
     float ypos_avg = 0.0;
 
-    for (int i = 0; i < neighboring_boids; i++)
+    for (int i = 0; i < neighbors_number; i++)
     {    
         // Calculate the distance between this boid and the current boid
         float dx = neighbors[i]->pos[0] - pos[0];
@@ -126,17 +125,17 @@ void Boid::update_pos(int WIDTH, int HEIGHT, vector<vector<vector<Boid*>>>& boid
         }
     }   
      
-    if (neighboring_boids > 0)
+    if (neighbors_number > 0)
     {
-        xvel_avg /= float(neighboring_boids);
-        yvel_avg /= float(neighboring_boids);
+        xvel_avg /= float(neighbors_number);
+        yvel_avg /= float(neighbors_number);
 
         vel[0] += (xvel_avg - vel[0]) * matching_factor;
         vel[1] += (yvel_avg - vel[1]) * matching_factor;
 
         // Calculate the center of mass
-        float center_x = xpos_avg / neighboring_boids;
-        float center_y = ypos_avg / neighboring_boids;
+        float center_x = xpos_avg / neighbors_number;
+        float center_y = ypos_avg / neighbors_number;
 
         // Calculate the direction towards the center
         float dx_center = center_x - pos[0];

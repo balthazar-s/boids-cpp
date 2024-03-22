@@ -21,8 +21,8 @@ int main()
     vector<Boid> boids;
 
     // Define number of boids
-    int cols = 17;
-    int rows = 17;
+    int cols = 22;
+    int rows = 22;
 
     // Define a random number generator engine
     random_device rd;

@@ -33,10 +33,10 @@ void init_settings()
 
     // Separation
     avoidfactor = 0.05;
-    protected_range = 30;
+    protected_range = 12;
 
     // Alignment and Cohesion
-    visible_range = 64;
+    visible_range = 32;
 
     // Alignment
     matching_factor = 0.0075;

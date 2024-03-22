@@ -42,7 +42,7 @@ void init_settings()
     matching_factor = 0.0075;
 
     // Cohesion
-    centering_factor = 0.002;
+    centering_factor = 0.001;
 
     // Other settings
     avoid_walls = false;

@@ -18,19 +18,23 @@ int main()
 
     srand((unsigned) time(NULL));
 
-    // Create all Boids
-    vector<Boid> boids;
-
     // Define number of boids
-    int cols = 24;
-    int rows = 24;
+    int cols = 20;
+    int rows = 20;
+
+    // Create all Boids
+    vector<vector<vector<Boid*>>> boids(grid_sizex);
+    for (int i = 0; i < grid_sizex; i++) 
+    {
+        boids[i].resize(grid_sizey);
+    }
 
     // Define a random number generator engine
     random_device rd;
     mt19937 gen(rd());
 
     for (int i = 0; i < rows; i++)
-    {
+    {   
         for (int j = 0; j < cols; j++)
         {   
             // Grid for coordinates
@@ -60,9 +64,10 @@ int main()
             vector<float> velocity = {vel_x, vel_y};
             
 
-            // Create new Boid object at end of boids list
-            boids.push_back(Boid(position, velocity));
-            boids.back().initialise();
+            // Create new Boid object dynamically and store its pointer in the list
+            Boid* new_boid = new Boid(position, velocity);
+            new_boid->initialise();
+            boids[i][j].push_back(new_boid);
         }
     }
             
@@ -86,8 +91,15 @@ int main()
         while (elapsedTimeSinceLastUpdate >= SIMULATION_TIME_PER_FRAME) {
             // Update simulation
             for (int i = 0, len = boids.size(); i < len; i++) {
-                boids[i].update_pos(WIDTH, HEIGHT, boids);
-                boids[i].speed_cap();
+                for (int j = 0, len_2 = boids[i].size(); j < len_2; j++)
+                {
+                    for (int k = 0, len_3 = boids[i][j].size(); k < len_3; k++)
+                    {
+                        boids[i][j][k]->update_pos(WIDTH, HEIGHT, boids);
+                        boids[i][j][k]->speed_cap(); 
+                    }
+                }
+                
             }
             elapsedTimeSinceLastUpdate -= SIMULATION_TIME_PER_FRAME;
         }

@@ -21,10 +21,13 @@ float turnfactor;
 bool menu_dropdown;
 int margin;
 
+int grid_sizex;
+int grid_sizey;
+
 // Initialize settings at proper values
 void init_settings()
 { 
-    WIDTH = 1840;
+    WIDTH = 1800;
     HEIGHT = 1000;
 
     // Speedcap
@@ -49,4 +52,7 @@ void init_settings()
     turnfactor = 0.1;
     menu_dropdown = false;
     margin = 100;
+
+    grid_sizex = WIDTH / 40;
+    grid_sizey = HEIGHT / 40;
 }

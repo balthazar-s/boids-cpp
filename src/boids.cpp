@@ -20,7 +20,7 @@ void Boid::draw_boid(sf::RenderWindow& window)
     window.draw(boid_shape);
 }
 
-void Boid::update_pos(int WIDTH, int HEIGHT, vector<Boid>& boids)
+void Boid::update_pos(int WIDTH, int HEIGHT, vector<vector<vector<Boid*>>>& boids)
 {
     // Update position
     pos[0] += vel[0]; 
@@ -59,17 +59,31 @@ void Boid::update_pos(int WIDTH, int HEIGHT, vector<Boid>& boids)
     }
     boid_shape.setRotation(angle);
     
+    // Get current boid grid coords
+    vector<int> grid_coords = calculate_grid_cords(40);
+    
+    // Get neighboring boids
+    vector<Boid*> neighbors = get_neighboring_boids(boids, grid_coords);
+
+
+    // If no neighbors
+    if (neighbors.size() == 0)
+    {
+        return;
+    }
+
+    int neighboring_boids = neighbors.size();
 
     // Separation
 
     float close_dx = 0.0;
     float close_dy = 0.0;
     
-    for (int i = 0, len = boids.size(); i < len; i++)
-    {
+    for (int i = 0; i < neighboring_boids; i++)
+    {   
         // Calculate quared distance between this boid and the current boid
-        float dx = pos[0] - boids[i].pos[0];
-        float dy = pos[1] - boids[i].pos[1];
+        float dx = pos[0] - neighbors[i]->pos[0];
+        float dy = pos[1] - neighbors[i]->pos[1];
         float distance = sqrt(dx * dx + dy * dy);
 
         if (distance <= protected_range && distance > 0)
@@ -85,33 +99,30 @@ void Boid::update_pos(int WIDTH, int HEIGHT, vector<Boid>& boids)
     vel[0] += close_dx * avoidfactor;
     vel[1] += close_dy * avoidfactor;
     
-
+    
     // Alignment and Cohesion
 
     float xvel_avg = 0.0;
     float yvel_avg = 0.0;
     float xpos_avg = 0.0;
     float ypos_avg = 0.0;
-    int neighboring_boids = 0;
 
-    for (int i = 0, len = boids.size(); i < len; i++)
-    {
+    for (int i = 0; i < neighboring_boids; i++)
+    {    
         // Calculate the distance between this boid and the current boid
-        float dx = boids[i].pos[0] - pos[0];
-        float dy = boids[i].pos[1] - pos[1];
+        float dx = neighbors[i]->pos[0] - pos[0];
+        float dy = neighbors[i]->pos[1] - pos[1];
         float distance = sqrt(dx * dx + dy * dy);
 
         if (distance <= visible_range && distance > 0)
         {
             // Calculate the adjustment to the velocity based on separation
-            xvel_avg += boids[i].vel[0];
-            yvel_avg += boids[i].vel[1];
+            xvel_avg += neighbors[i]->vel[0];
+            yvel_avg += neighbors[i]->vel[1];
 
             // Add the x and y positions of the other boid to xpos_avg and ypos_avg
-            xpos_avg += boids[i].pos[0];
-            ypos_avg += boids[i].pos[1];
-
-            neighboring_boids += 1;
+            xpos_avg += neighbors[i]->pos[0];
+            ypos_avg += neighbors[i]->pos[1];
         }
     }   
      
@@ -135,9 +146,9 @@ void Boid::update_pos(int WIDTH, int HEIGHT, vector<Boid>& boids)
         vel[0] += dx_center * centering_factor;
         vel[1] += dy_center * centering_factor;   
     }    
-
-    // Update color
     
+    // Update color
+    /*
     int color_level = round(neighboring_boids * 255 / 16);
 
     if (color_level > 255)
@@ -146,7 +157,7 @@ void Boid::update_pos(int WIDTH, int HEIGHT, vector<Boid>& boids)
     }
 
     boid_shape.setFillColor(sf::Color(color_level, color_level, color_level));
-    
+    */
 }
 
 void Boid::speed_cap()
@@ -164,4 +175,32 @@ void Boid::speed_cap()
         vel[0] = (vel[0] / speed) * minspeed;
         vel[1] = (vel[1] / speed) * minspeed;
     }
+}
+
+vector<int> Boid::calculate_grid_cords(int cell_size)
+{
+    return {static_cast<int>(pos[0]) / cell_size, static_cast<int>(pos[1]) / cell_size};
+}
+
+vector<Boid*> Boid::get_neighboring_boids(const vector<vector<vector<Boid*>>>& boids, vector<int> grid_coords)
+{
+    vector<Boid*> neighbors;
+
+    // Iterate over neighboring cells
+    for (int dx = -1; dx <= 1; ++dx) {
+        for (int dy = -1; dy <= 1; ++dy) {
+            int x = grid_cords[0] + dx;
+            int y = grid_cords[1] + dy;
+
+            // Check if the cell is within the grid bounds
+            if (x >= 0 && x < boids.size() && y >= 0 && y < boids[0].size()) {
+                // Add boids from the neighboring cell to the list of neighbors
+                for (Boid* neighbor : boids[x][y]) {
+                    neighbors.push_back(neighbor);
+                }
+            }
+        }
+    }
+
+    return neighbors;
 }

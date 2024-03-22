@@ -28,6 +28,9 @@ extern float turnfactor;
 extern bool menu_dropdown;
 extern int margin;
 
+extern int grid_sizex;
+extern int grid_sizey;
+
 
 // Functions
 void init_settings();

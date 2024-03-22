@@ -8,7 +8,7 @@ void Boid::initialise()
 {
     //boid_shape.setPointCount(3);
     boid_shape.setFillColor(sf::Color(255, 255, 255));
-    boid_shape.setRadius(2);
+    boid_shape.setRadius(3);
     boid_shape.setPointCount(3);
     //boid_shape.setPoint(0, sf::Vector2f(0, 5)); // Top point
     //boid_shape.setPoint(1, sf::Vector2f(-3, -5)); // Bottom left point
@@ -90,7 +90,7 @@ void Boid::update_pos(int WIDTH, int HEIGHT, vector<Boid>& boids)
     float xvel_avg = 0.0;
     float yvel_avg = 0.0;
     int neighboring_boids = 0;
-
+    /*
     for (int i = 0, len = boids.size(); i < len; i++)
     {
         // Calculate the distance between this boid and the current boid
@@ -114,7 +114,7 @@ void Boid::update_pos(int WIDTH, int HEIGHT, vector<Boid>& boids)
         vel[0] += (xvel_avg - vel[0]) * matching_factor;
         vel[1] += (yvel_avg - vel[1]) * matching_factor;  
     }
-
+    */
     // Cohesion
 
     float xpos_avg = 0.0;
@@ -131,9 +131,14 @@ void Boid::update_pos(int WIDTH, int HEIGHT, vector<Boid>& boids)
         // Step 2: If the distance to a particular boid is less than the visible range
         if (distance <= visible_range && distance > 0)
         {
+            // Calculate the adjustment to the velocity based on separation
+            xvel_avg += boids[i].vel[0];
+            yvel_avg += boids[i].vel[1];
+            neighboring_boids += 1;
+            
             // Add the x and y positions of the other boid to xpos_avg and ypos_avg
             xpos_avg += boids[i].pos[0];
-            ypos_avg += boids[i].pos[1];
+            ypos_avg += boids[i].pos[1];            
         }
     }    
 
@@ -143,10 +148,17 @@ void Boid::update_pos(int WIDTH, int HEIGHT, vector<Boid>& boids)
         // Calculate the average position
         xpos_avg /= float(neighboring_boids);
         ypos_avg /= float(neighboring_boids);
+        xvel_avg = xvel_avg / float(neighboring_boids);
+        yvel_avg = yvel_avg / float(neighboring_boids);
 
         // Update the velocity according to the difference between the average position and the current position
         vel[0] += (xpos_avg - pos[0]) * centering_factor;
-        vel[1] += (ypos_avg - pos[1]) * centering_factor;  
+        vel[1] += (ypos_avg - pos[1]) * centering_factor;
+
+        
+
+        vel[0] += (xvel_avg - vel[0]) * matching_factor;
+        vel[1] += (yvel_avg - vel[1]) * matching_factor;   
     }
 
     

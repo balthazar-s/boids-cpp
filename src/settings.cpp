@@ -24,7 +24,7 @@ int margin;
 // Initialize settings at proper values
 void init_settings()
 { 
-    WIDTH = 1000;
+    WIDTH = 1840;
     HEIGHT = 1000;
 
     // Speedcap
@@ -33,7 +33,7 @@ void init_settings()
 
     // Separation
     avoidfactor = 0.05;
-    protected_range = 12;
+    protected_range = 10;
 
     // Alignment and Cohesion
     visible_range = 32;

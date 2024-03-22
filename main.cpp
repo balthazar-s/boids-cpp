@@ -14,6 +14,7 @@ int main()
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8; // Adjust the antialiasing level as needed
     sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Boids", sf::Style::Titlebar | sf::Style::Close, settings);
+    window.setFramerateLimit(60);
 
     srand((unsigned) time(NULL));
 
@@ -21,8 +22,8 @@ int main()
     vector<Boid> boids;
 
     // Define number of boids
-    int cols = 16;
-    int rows = 16;
+    int cols = 24;
+    int rows = 24;
 
     // Define a random number generator engine
     random_device rd;
@@ -66,7 +67,7 @@ int main()
     }
             
     // Simulation variables
-    const int SIMULATION_FPS = 80;
+    const int SIMULATION_FPS = 60;
     const sf::Time SIMULATION_TIME_PER_FRAME = sf::seconds(1.0f / SIMULATION_FPS);
     sf::Clock simulationClock;
     sf::Time elapsedTimeSinceLastUpdate = sf::Time::Zero;
@@ -79,7 +80,7 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        
+
         // Simulate fixed time steps
         elapsedTimeSinceLastUpdate += simulationClock.restart();
         while (elapsedTimeSinceLastUpdate >= SIMULATION_TIME_PER_FRAME) {

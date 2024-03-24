@@ -20,6 +20,10 @@ bool avoid_walls;
 float turnfactor;
 bool menu_dropdown;
 int margin;
+int grid_dim;
+int grid_size_x;
+int grid_size_y;
+
 
 // Initialize settings at proper values
 void init_settings()
@@ -49,4 +53,8 @@ void init_settings()
     turnfactor = 0.1;
     menu_dropdown = false;
     margin = 100;
+
+    grid_dim = 40;
+    grid_size_x = WIDTH / grid_dim;
+    grid_size_y = HEIGHT / grid_dim;
 }

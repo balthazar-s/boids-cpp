@@ -7,7 +7,7 @@ using namespace std;
 void Boid::initialise()
 {
     boid_shape.setPointCount(3);
-    boid_shape.setFillColor(sf::Color(0, 255, 0));
+    boid_shape.setFillColor(sf::Color(255, 255, 255));
     boid_shape.setPoint(0, sf::Vector2f(0, 5)); // Top point
     boid_shape.setPoint(1, sf::Vector2f(-3, -5)); // Bottom left point
     boid_shape.setPoint(2, sf::Vector2f(3, -5)); // Bottom right point
@@ -181,6 +181,7 @@ void Boid::alignment_and_cohesion(vector<Boid>& boids)
     }
 
     // Colors
+    /*
     int color_level = round(neighboring_boids * 255 / 32);
 
     if (color_level > 255)
@@ -189,4 +190,5 @@ void Boid::alignment_and_cohesion(vector<Boid>& boids)
     }
 
     boid_shape.setFillColor(sf::Color(color_level, color_level, color_level));
+    */
 }

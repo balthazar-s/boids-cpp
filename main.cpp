@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp> // Graphics library
 #include "include/boids.hpp" // Boid class
 #include "include/settings.hpp"
+#include "../include/grid.hpp"
 #include <vector> // For vector lists
 #include <cstdlib> // For Random number generation
 #include <random>
@@ -21,8 +22,8 @@ int main()
     vector<Boid> boids;
 
     // Define number of boids
-    int cols = 20;
-    int rows = 20;
+    int cols = 12;
+    int rows = 12;
 
     // Define a random number generator engine
     random_device rd;

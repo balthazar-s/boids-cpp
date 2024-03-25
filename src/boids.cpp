@@ -2,6 +2,7 @@
 #include <math.h>
 #include "../include/boids.hpp"
 #include "../include/settings.hpp"
+#include "../include/grid.hpp"
 using namespace std;
 
 void Boid::initialise()

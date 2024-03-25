@@ -11,6 +11,7 @@ void Boid::initialise()
     boid_shape.setPoint(0, sf::Vector2f(0, 5)); // Top point
     boid_shape.setPoint(1, sf::Vector2f(-3, -5)); // Bottom left point
     boid_shape.setPoint(2, sf::Vector2f(3, -5)); // Bottom right point
+    grid_coords = {0, 0};
 }
 
 void Boid::draw_boid(sf::RenderWindow& window) 

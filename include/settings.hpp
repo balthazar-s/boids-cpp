@@ -28,8 +28,6 @@ extern float turnfactor;
 extern bool menu_dropdown;
 extern int margin;
 extern int grid_dim;
-extern int grid_size_x;
-extern int grid_size_y;
 
 
 // Functions

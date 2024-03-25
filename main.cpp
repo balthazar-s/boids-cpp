@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp> // Graphics library
 #include "include/boids.hpp" // Boid class
 #include "include/settings.hpp"
-#include "../include/grid.hpp"
+#include "include/grid.hpp"
 #include <vector> // For vector lists
 #include <cstdlib> // For Random number generation
 #include <random>
@@ -65,9 +65,14 @@ int main()
             boids.back().initialise();
         }
     }
+
+    // Create uniform grid
+    Grid uniform_grid;
+    // Resize uniform grid and add all boids
+    uniform_grid.init(boids);
             
     // Simulation variables
-    const int SIMULATION_FPS = 80;
+    const int SIMULATION_FPS = 60;
     const sf::Time SIMULATION_TIME_PER_FRAME = sf::seconds(1.0f / SIMULATION_FPS);
     sf::Clock simulationClock;
     sf::Time elapsedTimeSinceLastUpdate = sf::Time::Zero;
@@ -86,9 +91,9 @@ int main()
         while (elapsedTimeSinceLastUpdate >= SIMULATION_TIME_PER_FRAME) {
             // Update simulation
             for (int i = 0, len = boids.size(); i < len; i++) {
-                boids[i].update_pos_avoidwalls(WIDTH, HEIGHT);
-                boids[i].separation(boids);
-                boids[i].alignment_and_cohesion(boids);
+                boids[i].update_pos_avoidwalls();
+                uniform_grid.update_grid_pos(boids[i]);
+                boids[i].separation_alignment_cohesion(boids, uniform_grid);
                 boids[i].speed_cap();
             }
             elapsedTimeSinceLastUpdate -= SIMULATION_TIME_PER_FRAME;

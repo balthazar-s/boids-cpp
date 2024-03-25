@@ -20,7 +20,7 @@ void Boid::draw_boid(sf::RenderWindow& window)
     window.draw(boid_shape);
 }
 
-void Boid::update_pos(int WIDTH, int HEIGHT)
+void Boid::update_pos()
 {
     pos[0] += vel[0]; 
     pos[1] += vel[1];
@@ -56,7 +56,7 @@ void Boid::update_pos(int WIDTH, int HEIGHT)
     boid_shape.setRotation(angle);
 }
 
-void Boid::update_pos_avoidwalls(int WIDTH, int HEIGHT)
+void Boid::update_pos_avoidwalls()
 {
     // Update position
     pos[0] += vel[0]; 
@@ -114,16 +114,18 @@ void Boid::speed_cap()
     }
 }
 
-void Boid::separation(vector<Boid>& boids)
+void Boid::separation_alignment_cohesion(vector<Boid>& boids, Grid& uniform_grid)
 {   
+    vector<Boid*> neighbors = uniform_grid.get_neighboring_boids(grid_coords);
+    
     float close_dx = 0.0;
     float close_dy = 0.0;
 
-    for (int i = 0, len = boids.size(); i < len; i++)
+    for (int i = 0, len = neighbors.size(); i < len; i++)
     {
         // Calculate the squared distance between this boid and the current boid
-        float dx = pos[0] - boids[i].pos[0];
-        float dy = pos[1] - boids[i].pos[1];
+        float dx = pos[0] - neighbors[i]->pos[0];
+        float dy = pos[1] - neighbors[i]->pos[1];
         float distance = sqrt(dx * dx + dy * dy);
 
         if (distance <= protected_range && distance > 0)
@@ -138,32 +140,28 @@ void Boid::separation(vector<Boid>& boids)
 
     vel[0] += close_dx * avoidfactor;
     vel[1] += close_dy * avoidfactor;
-}
 
-
-void Boid::alignment_and_cohesion(vector<Boid>& boids)
-{
     float xvel_avg = 0.0;
     float yvel_avg = 0.0;
     float xpos_avg = 0.0;
     float ypos_avg = 0.0;
     int neighboring_boids = 0;
 
-    for (int i = 0, len = boids.size(); i < len; i++)
+    for (int i = 0, len = neighbors.size(); i < len; i++)
     {
         // Calculate the distance between this boid and the current boid
-        float dx = boids[i].pos[0] - pos[0];
-        float dy = boids[i].pos[1] - pos[1];
+        float dx = neighbors[i]->pos[0] - pos[0];
+        float dy = neighbors[i]->pos[1] - pos[1];
         float distance = sqrt(dx * dx + dy * dy);
 
         if (distance <= visible_range && distance > 0)
         {
             // Calculate the adjustment to the velocity based on separation
-            xvel_avg += boids[i].vel[0];
-            yvel_avg += boids[i].vel[1];
+            xvel_avg += neighbors[i]->vel[0];
+            yvel_avg += neighbors[i]->vel[1];
             // Add the x and y positions of the other boid to xpos_avg and ypos_avg
-            xpos_avg += boids[i].pos[0];
-            ypos_avg += boids[i].pos[1];
+            xpos_avg += neighbors[i]->pos[0];
+            ypos_avg += neighbors[i]->pos[1];
             neighboring_boids += 1;
         }
     }    

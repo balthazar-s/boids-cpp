@@ -10,8 +10,8 @@ class Grid
 {
     public:
         vector<vector<vector<Boid*>>> boid_grid;
-        int grid_size_x;// = WIDTH / grid_dim;
-        int grid_size_y;// = HEIGHT / grid_dim;
+        int grid_size_x;
+        int grid_size_y;
 
         void init(vector<Boid>& boids);
 

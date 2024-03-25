@@ -1,5 +1,6 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include "grid.hpp"
 using namespace std;
 
 #ifndef BOIDS_HPP
@@ -22,13 +23,11 @@ class Boid {
 
     void draw_boid(sf::RenderWindow& window);
 
-    void update_pos(int WIDTH, int HEIGHT);
+    void update_pos();
 
-    void update_pos_avoidwalls(int WIDTH, int HEIGHT);
+    void update_pos_avoidwalls();
 
-    void separation(vector<Boid>& boids);
-
-    void alignment_and_cohesion(vector<Boid>& boids);
+    void separation_alignment_cohesion(vector<Boid>& boids, Grid& uniform_grid);
 
     void speed_cap();
 };

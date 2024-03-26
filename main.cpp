@@ -22,8 +22,8 @@ int main()
     vector<Boid> boids;
 
     // Define number of boids
-    int cols = 12;
-    int rows = 12;
+    int cols = 30;
+    int rows = 30;
 
     // Define a random number generator engine
     random_device rd;
@@ -72,7 +72,7 @@ int main()
     uniform_grid.init(boids);
             
     // Simulation variables
-    const int SIMULATION_FPS = 60;
+    const int SIMULATION_FPS = 100;
     const sf::Time SIMULATION_TIME_PER_FRAME = sf::seconds(1.0f / SIMULATION_FPS);
     sf::Clock simulationClock;
     sf::Time elapsedTimeSinceLastUpdate = sf::Time::Zero;

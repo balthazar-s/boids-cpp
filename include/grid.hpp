@@ -1,7 +1,8 @@
 #include <vector>
-#include "boids.hpp"
 #include "settings.hpp"
 using namespace std;
+
+class Boid;
 
 #ifndef GRID_HPP
 #define GRID_HPP

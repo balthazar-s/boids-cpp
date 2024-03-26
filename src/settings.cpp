@@ -25,31 +25,31 @@ int grid_dim;
 // Initialize settings at proper values
 void init_settings()
 { 
-    WIDTH = 1000;
+    WIDTH = 1800;
     HEIGHT = 1000;
 
     // Speedcap
-    maxspeed = 3;
-    minspeed = 1.5;
+    maxspeed = 1.9;
+    minspeed = 0.5;
 
     // Separation
-    avoidfactor = 0.05;
-    protected_range = 12;
+    avoidfactor = 0.055;
+    protected_range = 10;
 
     // Alignment and Cohesion
-    visible_range = 32;
+    visible_range = 30;
 
     // Alignment
-    matching_factor = 0.0075;
+    matching_factor = 0.007;
 
     // Cohesion
-    centering_factor = 0.001;
+    centering_factor = 0.0011;
 
     // Other settings
     avoid_walls = false;
     turnfactor = 0.1;
     menu_dropdown = false;
-    margin = 100;
+    margin = 50;
 
     grid_dim = 40;
 }

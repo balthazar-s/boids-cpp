@@ -1,8 +1,8 @@
 #include <vector>
 #include <algorithm>
-#include "boids.hpp"
-#include "settings.hpp"
-#include "grid.hpp"
+#include "../include/boids.hpp"
+#include "../include/settings.hpp"
+#include "../include/grid.hpp"
 using namespace std;
 
 void Grid::init(vector<Boid>& boids)
@@ -16,13 +16,31 @@ void Grid::init(vector<Boid>& boids)
         boid_grid[i].resize(grid_size_y);
     }
 
-    for (int i = 0, len = boids.size(); i < 0; i++)
+    for (int i = 0, len = boids.size(); i < len; i++)
     {
         vector<int> grid_coords = calculate_grid_cords(boids[i]);
 
         boids[i].grid_coords = grid_coords;
         boid_grid[grid_coords[0]][grid_coords[1]].push_back(&boids[i]);
     }
+}
+
+
+vector<int> Grid::calculate_grid_cords(Boid& this_boid)
+{   
+    int cell_size = grid_dim;
+    int x = static_cast<int>(this_boid.pos[0]) / cell_size;
+    int y = static_cast<int>(this_boid.pos[1]) / cell_size;
+    if (x > grid_size_x)
+        x = grid_size_x;
+    else if (x < 0)
+        x = 0;
+    if (y > grid_size_y)
+        y = grid_size_y;
+    else if (y < 0)
+        y = 0;
+    
+    return {x, y};
 }
 
 
@@ -33,17 +51,14 @@ void Grid::update_grid_pos(Boid& this_boid)
 
     auto it = find(boid_grid[old_c[0]][old_c[1]].begin(), boid_grid[old_c[0]][old_c[1]].end(), &this_boid);
 
+    if (it == boid_grid[old_c[0]][old_c[1]].end())
+    {
+        return;
+    }
+
     boid_grid[old_c[0]][old_c[1]].erase(it);
 
     boid_grid[new_c[0]][new_c[1]].push_back(&this_boid);
-    
-}
-
-
-vector<int> Grid::calculate_grid_cords(Boid& this_boid)
-{   
-    int cell_size = grid_dim;
-    return {static_cast<int>(this_boid.pos[0]) / cell_size, static_cast<int>(this_boid.pos[1]) / cell_size};
 }
 
 

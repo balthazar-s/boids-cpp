@@ -1,7 +1,8 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include "grid.hpp"
 using namespace std;
+
+class Grid;
 
 #ifndef BOIDS_HPP
 #define BOIDS_HPP

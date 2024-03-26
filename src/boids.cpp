@@ -9,9 +9,9 @@ void Boid::initialise()
 {
     boid_shape.setPointCount(3);
     boid_shape.setFillColor(sf::Color(255, 255, 255));
-    boid_shape.setPoint(0, sf::Vector2f(0, 5)); // Top point
-    boid_shape.setPoint(1, sf::Vector2f(-3, -5)); // Bottom left point
-    boid_shape.setPoint(2, sf::Vector2f(3, -5)); // Bottom right point
+    boid_shape.setPoint(0, sf::Vector2f(0, 2)); // Top point
+    boid_shape.setPoint(1, sf::Vector2f(-1, -2)); // Bottom left point
+    boid_shape.setPoint(2, sf::Vector2f(1, -2)); // Bottom right point
     grid_coords = {0, 0};
 }
 
@@ -26,21 +26,21 @@ void Boid::update_pos()
     pos[1] += vel[1];
 
     // Wrap around from edges
-    if (pos[0] > WIDTH + 10)
+    if (pos[0] > WIDTH-10)
     {
-        pos[0] = -10.0;
+        pos[0] = 10;
     }
-    else if (pos[1] > HEIGHT + 10)
+    else if (pos[1] > HEIGHT-10)
     {
-        pos[1] = -10.0;
+        pos[1] = 10;
     }
-    else if (pos[0] < -10)
+    else if (pos[0] < 10)
     {
-        pos[0] = WIDTH + 10;
+        pos[0] = WIDTH-10;
     }
-    else if (pos[1] < -10)
+    else if (pos[1] < 10)
     {
-        pos[1] = HEIGHT + 10;
+        pos[1] = HEIGHT-10;
     }
 
 
@@ -178,17 +178,5 @@ void Boid::separation_alignment_cohesion(vector<Boid>& boids, Grid& uniform_grid
 
         vel[0] += (xpos_avg - pos[0]) * centering_factor;
         vel[1] += (ypos_avg - pos[1]) * centering_factor;  
-    }
-
-    // Colors
-    /*
-    int color_level = round(neighboring_boids * 255 / 32);
-
-    if (color_level > 255)
-    {
-        color_level = 255;
-    }
-
-    boid_shape.setFillColor(sf::Color(color_level, color_level, color_level));
-    */
+    }    
 }

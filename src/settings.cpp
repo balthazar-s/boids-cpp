@@ -10,7 +10,8 @@ float minspeed;
 float avoidfactor;
 float protected_range;
 
-float visible_range;
+float visible_range_alignment;
+float visible_range_cohesion;
 
 float matching_factor;
 
@@ -37,7 +38,9 @@ void init_settings()
     protected_range = 10;
 
     // Alignment and Cohesion
-    visible_range = 30;
+    visible_range_alignment = 60;
+    visible_range_cohesion = 30;
+
 
     // Alignment
     matching_factor = 0.007;

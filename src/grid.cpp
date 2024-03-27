@@ -67,8 +67,8 @@ vector<Boid*> Grid::get_neighboring_boids(vector<int> grid_coords)
     vector<Boid*> neighbors;
 
     // Iterate over neighboring cells
-    for (int dx = -1; dx <= 1; ++dx) {
-        for (int dy = -1; dy <= 1; ++dy) {
+    for (int dx = -2; dx <= 2; ++dx) {
+        for (int dy = -2; dy <= 2; ++dy) {
             int x = grid_coords[0] + dx;
             int y = grid_coords[1] + dy;
 

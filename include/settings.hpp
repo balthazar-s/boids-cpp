@@ -14,7 +14,8 @@ extern float avoidfactor;
 extern float protected_range;
 
 // Alignment and Cohesion
-extern float visible_range;
+extern float visible_range_alignment;
+extern float visible_range_cohesion;
 
 // Alignment
 extern float matching_factor;

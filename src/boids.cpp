@@ -145,7 +145,9 @@ void Boid::separation_alignment_cohesion(vector<Boid>& boids, Grid& uniform_grid
     float yvel_avg = 0.0;
     float xpos_avg = 0.0;
     float ypos_avg = 0.0;
-    int neighboring_boids = 0;
+    int neighboring_boids_alignment = 0;
+    int neighboring_boids_cohesion = 0;
+
 
     for (int i = 0, len = neighbors.size(); i < len; i++)
     {
@@ -154,29 +156,40 @@ void Boid::separation_alignment_cohesion(vector<Boid>& boids, Grid& uniform_grid
         float dy = neighbors[i]->pos[1] - pos[1];
         float distance = sqrt(dx * dx + dy * dy);
 
-        if (distance <= visible_range && distance > 0)
+        if (distance <= 0)
+        {
+            return;
+        }
+
+        if (distance <= visible_range_alignment)
         {
             // Calculate the adjustment to the velocity based on separation
             xvel_avg += neighbors[i]->vel[0];
             yvel_avg += neighbors[i]->vel[1];
+            neighboring_boids_alignment += 1;
+        }
+        if (distance <= visible_range_cohesion)
+        {
             // Add the x and y positions of the other boid to xpos_avg and ypos_avg
             xpos_avg += neighbors[i]->pos[0];
             ypos_avg += neighbors[i]->pos[1];
-            neighboring_boids += 1;
+            neighboring_boids_cohesion += 1;
         }
     }    
-    if (neighboring_boids > 0)
+    if (neighboring_boids_alignment > 0)
     {
-        xvel_avg = xvel_avg / float(neighboring_boids);
-        yvel_avg = yvel_avg / float(neighboring_boids);
+        xvel_avg = xvel_avg / float(neighboring_boids_alignment);
+        yvel_avg = yvel_avg / float(neighboring_boids_alignment);
 
         vel[0] += (xvel_avg - vel[0]) * matching_factor;
         vel[1] += (yvel_avg - vel[1]) * matching_factor;  
-
-        xpos_avg /= float(neighboring_boids);
-        ypos_avg /= float(neighboring_boids);
+    }    
+    if (neighboring_boids_cohesion > 0)
+    {
+        xpos_avg /= float(neighboring_boids_cohesion);
+        ypos_avg /= float(neighboring_boids_cohesion);
 
         vel[0] += (xpos_avg - pos[0]) * centering_factor;
         vel[1] += (ypos_avg - pos[1]) * centering_factor;  
-    }    
+    }
 }
